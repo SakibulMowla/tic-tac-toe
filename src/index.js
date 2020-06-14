@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const ROWS = 3;
+const COLUMNS = 3;
+
 function Square(props) {
     return (
         <button className="square" onClick={props.onClick}>
@@ -14,7 +17,7 @@ class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null),
+            squares: Array(ROWS * COLUMNS).fill(null),
             xIsNext: true
         };
     }
@@ -40,6 +43,16 @@ class Board extends React.Component {
         );
     }
 
+    renderRow(i) {
+        return (
+            <div className="board-row">
+                {this.renderSquare(i * COLUMNS + 0)}
+                {this.renderSquare(i * COLUMNS + 1)}
+                {this.renderSquare(i * COLUMNS + 2)}
+            </div>
+        );
+    }
+
     render() {
         const winner = calculateWinner(this.state.squares);
         let status;
@@ -52,21 +65,9 @@ class Board extends React.Component {
         return (
             <div>
                 <div className="status">{status}</div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {this.renderRow(0)}
+                {this.renderRow(1)}
+                {this.renderRow(2)}
             </div>
         );
     }
